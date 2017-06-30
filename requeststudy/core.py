@@ -41,6 +41,14 @@ class Request(object):
         self.auth = None
         self.sent = False
 
+
+    def __repr__(self):
+        try:
+            repr = '<Request [%s]>' % (self.method)
+        except:
+            repr = '<Request object>'
+        return repr
+
     def __setattr__(self, name, value):
         '''调用__setattr__  方法，对参数校验，通过后赋值'''
         if (name == 'method') and value:
@@ -153,12 +161,6 @@ class Request(object):
                 except urllib2.HTTPError, why:
                     self.response.status_code = why.code
 
-        elif self.method.lower() == 'delete':
-            if (not self.sent) or anyway:
-                pass
-        else:
-            raise InvalidMethod
-
         self.sent = True if success else False
 
         return self.sent
@@ -169,6 +171,13 @@ class Response(object):
         self.content = None
         self.status_code = None
         self.headers = dict()
+
+    def __repr__(self):
+        try:
+            repr = '<Response [%s]>' % (self.status_code)
+        except:
+            repr = '<Response object>'
+        return repr
 
 
 class AuthObject(object):
